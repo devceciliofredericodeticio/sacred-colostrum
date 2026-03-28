@@ -1,0 +1,66 @@
+<div class="sc-hero" style="background-color:{{ section.settings.bg_color }};min-height:{{ section.settings.min_height }}px;position:relative;overflow:hidden;">
+  {%- if section.settings.bg_image != blank -%}
+    <div class="sc-hero__bg">
+      <img src="{{ section.settings.bg_image | image_url: width: 2000 }}" alt="" loading="eager">
+    </div>
+    <div class="sc-hero__overlay" style="opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  {%- endif -%}
+  <div class="sc-hero__content page-width">
+    <div class="sc-hero__text">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="sc-hero__heading" style="color:{{ section.settings.text_color }};">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="sc-hero__sub" style="color:{{ section.settings.text_color }};">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_url }}" class="sc-btn" style="background:{{ section.settings.btn_bg }};color:{{ section.settings.btn_text }};">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+.sc-hero { width:100%; }
+.sc-hero__bg { position:absolute;inset:0; }
+.sc-hero__bg img { width:100%;height:100%;object-fit:cover; }
+.sc-hero__overlay { position:absolute;inset:0;background:#000; }
+.sc-hero__content { position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:0 72px;display:flex;align-items:flex-end;min-height:inherit;padding-bottom:80px; }
+.sc-hero__text { max-width:772px; }
+.sc-hero__heading { margin:0 0 24px;font-size:clamp(32px,5vw,72px);line-height:1.1;font-weight:700; }
+.sc-hero__sub { opacity:.9;max-width:586px;margin:0 0 40px;font-size:clamp(15px,1.5vw,18px);line-height:1.6; }
+.sc-btn { display:inline-block;padding:16px 40px;text-decoration:none;font-weight:600;font-size:16px;border-radius:4px;transition:opacity .2s; }
+.sc-btn:hover { opacity:.85; }
+@media (max-width:900px) {
+  .sc-hero__content { padding:0 32px 60px !important; }
+}
+@media (max-width:600px) {
+  .sc-hero__content { padding:0 20px 48px !important; }
+  .sc-hero { min-height:500px !important; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "SC - Hero Banner",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#1a1a1a" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity", "min": 0, "max": 80, "step": 5, "default": 30 },
+    { "type": "range", "id": "min_height", "label": "Min Height (px)", "min": 400, "max": 1000, "step": 50, "default": 869 },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Nature's First Food for Modern Wellness" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Sacred Colostrum is nature's most bioactive superfood." },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "Shop Now" },
+    { "type": "url", "id": "button_url", "label": "Button URL" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "btn_bg", "label": "Button Background", "default": "#ffffff" },
+    { "type": "color", "id": "btn_text", "label": "Button Text Color", "default": "#000000" }
+  ],
+  "presets": [{ "name": "SC - Hero Banner" }]
+}
+{% endschema %}

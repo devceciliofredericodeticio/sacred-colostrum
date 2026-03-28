@@ -1,0 +1,76 @@
+<div class="sc-faq" style="background:{{ section.settings.bg_color }};padding:{{ section.settings.pad_v }}px 0;">
+  <div class="sc-faq__inner">
+    {%- if section.settings.heading != blank -%}
+      <div class="sc-faq__head">
+        <h2 class="sc-faq__title" style="color:{{ section.settings.heading_color }};">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subtext != blank -%}
+          <p class="sc-faq__sub" style="color:{{ section.settings.text_color }};">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="sc-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="sc-faq__item" {{ block.shopify_attributes }}>
+          <summary class="sc-faq__q" style="color:{{ section.settings.heading_color }};">
+            <span>{{ block.settings.question }}</span>
+            <svg class="sc-faq__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="sc-faq__a" style="color:{{ section.settings.text_color }};">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.button_label != blank -%}
+      <div style="text-align:center;margin-top:48px;">
+        <a href="{{ section.settings.button_url }}" class="sc-btn-solid" style="background:{{ section.settings.heading_color }};color:{{ section.settings.bg_color }};">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+<style>
+.sc-faq { width:100%; }
+.sc-faq__inner { max-width:1440px;margin:0 auto;padding:0 80px; }
+.sc-faq__head { text-align:center;margin-bottom:56px; }
+.sc-faq__title { font-size:clamp(28px,3vw,48px);font-weight:700;margin:0 0 16px; }
+.sc-faq__sub { font-size:16px;max-width:536px;margin:0 auto;line-height:1.6; }
+.sc-faq__list { max-width:908px;margin:0 auto; }
+.sc-faq__item { border-bottom:1px solid rgba(0,0,0,.12); }
+.sc-faq__q { display:flex;align-items:center;justify-content:space-between;padding:24px 0;cursor:pointer;font-size:16px;font-weight:600;list-style:none;gap:16px; }
+.sc-faq__q::-webkit-details-marker { display:none; }
+.sc-faq__icon { flex-shrink:0;transition:transform .2s; }
+details[open] .sc-faq__icon { transform:rotate(180deg); }
+.sc-faq__a { padding:0 0 24px;font-size:15px;line-height:1.7; }
+.sc-btn-solid { display:inline-block;padding:16px 40px;text-decoration:none;font-weight:600;font-size:16px;border-radius:4px;transition:opacity .2s; }
+.sc-btn-solid:hover { opacity:.85; }
+@media (max-width:900px) { .sc-faq__inner { padding:0 32px; } }
+@media (max-width:600px) { .sc-faq__inner { padding:0 20px; } .sc-faq__list { max-width:100%; } }
+</style>
+{% schema %}
+{
+  "name": "SC - FAQ",
+  "tag": "section",
+  "max_blocks": 20,
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#111111" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#555555" },
+    { "type": "range", "id": "pad_v", "label": "Vertical Padding", "min": 40, "max": 160, "step": 8, "default": 80 },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext" },
+    { "type": "text", "id": "button_label", "label": "Button Label" },
+    { "type": "url", "id": "button_url", "label": "Button URL" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What is colostrum?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Colostrum is the first milk produced by mammals after giving birth...</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "SC - FAQ" }]
+}
+{% endschema %}

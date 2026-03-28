@@ -1,0 +1,99 @@
+<div class="sc-compare" style="background:{{ section.settings.bg_color }};padding:{{ section.settings.pad_v }}px 0;">
+  <div class="sc-compare__inner">
+    {%- if section.settings.heading != blank -%}
+      <div class="sc-compare__head">
+        <h2 class="sc-compare__title" style="color:{{ section.settings.heading_color }};">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subtext != blank -%}
+          <p class="sc-compare__sub" style="color:{{ section.settings.text_color }};">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="sc-compare__table-wrap">
+      <table class="sc-compare__table">
+        <thead>
+          <tr>
+            <th class="sc-compare__th sc-compare__th--feat" style="color:{{ section.settings.heading_color }};">Feature</th>
+            <th class="sc-compare__th sc-compare__th--us" style="background:{{ section.settings.highlight_bg }};color:{{ section.settings.highlight_text }};">{{ section.settings.col_us }}</th>
+            <th class="sc-compare__th" style="color:{{ section.settings.heading_color }};">{{ section.settings.col_b }}</th>
+            <th class="sc-compare__th" style="color:{{ section.settings.heading_color }};">{{ section.settings.col_c }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr class="sc-compare__row" {{ block.shopify_attributes }}>
+              <td class="sc-compare__feat" style="color:{{ section.settings.heading_color }};">{{ block.settings.feature }}</td>
+              <td class="sc-compare__cell sc-compare__cell--us" style="background:{{ section.settings.highlight_bg }};">
+                {%- if block.settings.us -%}<span class="sc-check" style="color:{{ section.settings.highlight_text }};">✓</span>{%- else -%}<span class="sc-cross">✗</span>{%- endif -%}
+              </td>
+              <td class="sc-compare__cell">{%- if block.settings.col_b -%}<span class="sc-check">✓</span>{%- else -%}<span class="sc-cross">✗</span>{%- endif -%}</td>
+              <td class="sc-compare__cell">{%- if block.settings.col_c -%}<span class="sc-check">✓</span>{%- else -%}<span class="sc-cross">✗</span>{%- endif -%}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    {%- if section.settings.button_label != blank -%}
+      <div style="text-align:center;margin-top:48px;">
+        <a href="{{ section.settings.button_url }}" class="sc-btn-solid" style="background:{{ section.settings.heading_color }};color:{{ section.settings.bg_color }};">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.sc-compare { width:100%; }
+.sc-compare__inner { max-width:1440px;margin:0 auto;padding:0 80px; }
+.sc-compare__head { text-align:center;margin-bottom:56px; }
+.sc-compare__title { font-size:clamp(28px,3vw,48px);font-weight:700;margin:0 0 16px; }
+.sc-compare__sub { font-size:16px;max-width:812px;margin:0 auto;line-height:1.6; }
+.sc-compare__table-wrap { overflow-x:auto; }
+.sc-compare__table { width:100%;border-collapse:collapse;min-width:500px; }
+.sc-compare__th { padding:20px 24px;font-weight:700;font-size:15px;text-align:center;border-bottom:2px solid rgba(0,0,0,.1); }
+.sc-compare__th--feat { text-align:left; }
+.sc-compare__th--us { border-radius:8px 8px 0 0; }
+.sc-compare__feat { padding:18px 24px;font-size:15px;font-weight:500;border-bottom:1px solid rgba(0,0,0,.08); }
+.sc-compare__cell { padding:18px 24px;text-align:center;border-bottom:1px solid rgba(0,0,0,.08); }
+.sc-check { font-size:18px;color:#2d7a4f; }
+.sc-cross { font-size:18px;color:#ccc; }
+.sc-compare__cell--us .sc-check { color:inherit; }
+@media (max-width:900px) { .sc-compare__inner { padding:0 32px; } }
+@media (max-width:600px) { .sc-compare__inner { padding:0 20px; } .sc-compare__th,.sc-compare__feat,.sc-compare__cell { padding:14px 12px;font-size:13px; } }
+</style>
+
+{% schema %}
+{
+  "name": "SC - Comparison Table",
+  "tag": "section",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#111111" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#555555" },
+    { "type": "color", "id": "highlight_bg", "label": "Highlight Column BG", "default": "#111111" },
+    { "type": "color", "id": "highlight_text", "label": "Highlight Column Text", "default": "#ffffff" },
+    { "type": "range", "id": "pad_v", "label": "Vertical Padding", "min": 40, "max": 160, "step": 8, "default": 80 },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why Sacred Colostrum?" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext" },
+    { "type": "text", "id": "col_us", "label": "Our Column Label", "default": "Sacred Colostrum" },
+    { "type": "text", "id": "col_b", "label": "Competitor B Label", "default": "Competitor B" },
+    { "type": "text", "id": "col_c", "label": "Competitor C Label", "default": "Competitor C" },
+    { "type": "text", "id": "button_label", "label": "Button Label" },
+    { "type": "url", "id": "button_url", "label": "Button URL" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "100% Grass-Fed" },
+        { "type": "checkbox", "id": "us", "label": "Sacred Colostrum ✓", "default": true },
+        { "type": "checkbox", "id": "col_b", "label": "Competitor B ✓", "default": false },
+        { "type": "checkbox", "id": "col_c", "label": "Competitor C ✓", "default": false }
+      ]
+    }
+  ],
+  "presets": [{ "name": "SC - Comparison Table" }]
+}
+{% endschema %}
